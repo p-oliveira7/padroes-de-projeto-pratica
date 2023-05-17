@@ -7,3 +7,4 @@ Command;
 Template Metod;
 Observer/Listener;
 Adapter;
+Decorator;
