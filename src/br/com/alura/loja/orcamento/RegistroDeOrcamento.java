@@ -18,7 +18,7 @@ public class RegistroDeOrcamento {
         // Http Cliente
         // lib Rest
         if (!orcamento.isFinalizado()){
-            throw new DomainException("Orcamento não finalizado!");
+            throw new DomainException("Orcamento Não foi finalizado!");
         }
         String url = "http://api.externa/orcamento";
         Map<String, Object> dados = Map.of(
