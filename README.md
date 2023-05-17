@@ -1,4 +1,4 @@
-## Exercícios práticos realizados para o entendimento de padrões de projeto comportamentais em Java.
+## Exercícios práticos realizados para o entendimento de padrões de projeto com Java.
 Foram estudados:
 Strategy;
 Chain of responsibility;
