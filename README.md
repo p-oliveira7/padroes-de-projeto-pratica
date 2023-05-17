@@ -6,3 +6,4 @@ State;
 Command;
 Template Metod;
 Observer/Listener;
+Adapter;
