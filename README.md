@@ -8,3 +8,6 @@ Template Metod;
 Observer/Listener;
 Adapter;
 Decorator;
+Composite;
+Facade;
+Proxy;

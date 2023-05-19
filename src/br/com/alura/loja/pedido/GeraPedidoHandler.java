@@ -1,34 +1,28 @@
 package br.com.alura.loja.pedido;
 
-import br.com.alura.loja.orcamento.Orcamento;
-import br.com.alura.loja.pedido.acao.EnviarEmailPedido;
-import br.com.alura.loja.pedido.acao.SalvarPedidoNoBanco;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import br.com.alura.loja.orcamento.ItemOrcamento;
+import br.com.alura.loja.orcamento.Orcamento;
+import br.com.alura.loja.pedido.acoes.AcaoAposGerarPedido;
 
 public class GeraPedidoHandler {
 
-    private String cliente;
-    private BigDecimal valorOrcamento;
-    private int quantidadeItens;
+	private List<AcaoAposGerarPedido> acoesAposGerarPedido;
 
-    public GeraPedidoHandler(String cliente, BigDecimal valorOrcamento, int quantidadeItens) {
-        this.cliente = cliente;
-        this.valorOrcamento = valorOrcamento;
-        this.quantidadeItens = quantidadeItens;
-    }
+	// injecao de dependencias para servicos de infra
+	public GeraPedidoHandler(List<AcaoAposGerarPedido> acoesAposGerarPedidos) {
+		acoesAposGerarPedido = acoesAposGerarPedidos;
+	}
 
-    public void executa() {
-        Orcamento orcamento = new Orcamento(this.valorOrcamento, this.quantidadeItens);
-        LocalDateTime data = LocalDateTime.now();
+	public void executar(GeraPedido geraPedido) {
+		Orcamento orcamento = new Orcamento();
+		orcamento.adicionarItem(new ItemOrcamento(new BigDecimal("200")));
+		Pedido pedido = new Pedido(geraPedido.getCliente(), LocalDateTime.now(), orcamento);
 
-        Pedido pedido = new Pedido(cliente, data, orcamento);
+		this.acoesAposGerarPedido.forEach(a -> a.executarAcao(pedido));
+	}
 
-        EnviarEmailPedido email = new EnviarEmailPedido();
-        SalvarPedidoNoBanco salvar = new SalvarPedidoNoBanco();
-
-        email.executar(pedido);
-        salvar.executar(pedido);
-    }
 }
